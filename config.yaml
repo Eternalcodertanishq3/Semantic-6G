@@ -1,0 +1,55 @@
+seed: 42
+device: auto
+
+data:
+  root: data
+  dataset: cifar10
+  batch_size: 64
+  num_workers: 2
+  val_size: 1000
+
+channel:
+  type: awgn
+  train_snr_min_db: -5.0
+  train_snr_max_db: 15.0
+  eval_snr_db: [-5, -2, 0, 2, 5, 8, 10, 12, 15, 18, 20]
+  symbol_power: 1.0
+
+semantic:
+  num_symbols: 384
+  latent_channels: 96
+  checkpoint: checkpoints/semantic_cifar10.pt
+
+classical:
+  num_symbols: 384
+  qam_order: 16
+  fec: conv_viterbi
+  quant_bits: 4
+  compressed_size: 7
+
+classifier:
+  checkpoint: checkpoints/cifar10_classifier.pt
+  epochs: 40
+  batch_size: 128
+  lr: 0.001
+  weight_decay: 0.0005
+
+train:
+  epochs: 8
+  lr: 0.001
+  weight_decay: 0.000001
+  log_every: 25
+  save_every_epochs: 1
+
+evaluation:
+  max_batches: 16
+  output_dir: outputs
+
+text:
+  dataset: tinyshakespeare
+  embed_dim: 128
+  hidden_dim: 192
+  max_len: 64
+  num_symbols: 128
+  batch_size: 64
+  checkpoint: checkpoints/semantic_text.pt

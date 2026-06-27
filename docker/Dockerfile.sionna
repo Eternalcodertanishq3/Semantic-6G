@@ -1,0 +1,23 @@
+﻿FROM ubuntu:24.04
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3 \
+    python3-pip \
+    python3-venv \
+    git \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /workspace
+
+RUN python3 -m venv /opt/semantic-6g && \
+    /opt/semantic-6g/bin/pip install --upgrade pip && \
+    /opt/semantic-6g/bin/pip install "torch>=2.9" torchvision sionna scikit-image matplotlib PyYAML streamlit scikit-commpy
+
+ENV PATH="/opt/semantic-6g/bin:${PATH}"
+
+CMD ["bash"]
