@@ -67,19 +67,17 @@ We strictly enforced equal link-budgets for fairness:
 - `semantic_power = 1.0`, `classical_power = 1.0`
 
 ### Image Reconstruction Results
+
 At High SNRs, both perform well. At ultra-low SNRs (e.g. -2 dB), the classical model drops to **10% Meaning Accuracy** (random guessing), while our Semantic AI maintains over **24% Meaning Accuracy**, proving that meaning survives the noise.
 
-<p align="center">
-  <img src="./outputs/psnr_vs_snr.png" alt="PSNR vs SNR" width="32%" />
-  <img src="./outputs/ssim_vs_snr.png" alt="SSIM vs SNR" width="32%" />
-  <img src="./outputs/meaning_accuracy_vs_snr.png" alt="Meaning Accuracy vs SNR" width="32%" />
-</p>
+| PSNR vs SNR | SSIM vs SNR | Meaning Accuracy |
+|:---:|:---:|:---:|
+| ![PSNR](outputs/psnr_vs_snr.png) | ![SSIM](outputs/ssim_vs_snr.png) | ![Meaning Accuracy](outputs/meaning_accuracy_vs_snr.png) |
 
 ### Text Token Results
 The GRU-based Text Semantic Codec degrades smoothly, proving the concept applies to non-visual modalities as well.
-<p align="center">
-  <img src="./outputs/text_token_acc_vs_snr.png" alt="Text Token Accuracy vs SNR" width="50%" />
-</p>
+
+![Text Token Accuracy vs SNR](outputs/text_token_acc_vs_snr.png)
 
 ---
 
