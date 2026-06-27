@@ -151,4 +151,5 @@ Thumbs.db
 data/
 checkpoints/
 logs/
-outputs/
+outputs/*
+!outputs/*.png
