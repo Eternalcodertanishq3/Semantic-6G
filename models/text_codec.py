@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import torch
 from torch import Tensor, nn
@@ -62,17 +62,46 @@ class TextSemanticDecoder(nn.Module):
             nn.Linear(num_symbols * 2, hidden_dim),
             nn.Tanh(),
         )
-        self.bos = nn.Parameter(torch.zeros(1, 1, embed_dim))
+        self.embedding = nn.Embedding(vocab_size, embed_dim, padding_idx=0)
+        self.bos_token = CharVocabulary.bos_id
+        
         self.decoder = nn.GRU(embed_dim + hidden_dim, hidden_dim, batch_first=True)
         self.output = nn.Linear(hidden_dim, vocab_size)
 
-    def forward(self, symbols: Tensor) -> Tensor:
+    def forward(self, symbols: Tensor, targets: Tensor | None = None) -> Tensor:
+        batch_size = symbols.shape[0]
         context = self.context(symbols.flatten(start_dim=1))
-        repeated_context = context.unsqueeze(1).expand(-1, self.max_len, -1)
-        bos = self.bos.expand(symbols.shape[0], self.max_len, -1)
-        decoder_input = torch.cat([bos, repeated_context], dim=-1)
-        decoded, _ = self.decoder(decoder_input)
-        return self.output(decoded)
+        hidden = None
+        
+        if targets is not None:
+            # Teacher forcing
+            bos_tokens = torch.full((batch_size, 1), self.bos_token, device=symbols.device, dtype=torch.long)
+            decoder_input_tokens = torch.cat([bos_tokens, targets[:, :-1]], dim=1)
+            
+            embedded = self.embedding(decoder_input_tokens)
+            repeated_context = context.unsqueeze(1).expand(-1, self.max_len, -1)
+            decoder_input = torch.cat([embedded, repeated_context], dim=-1)
+            
+            decoded, _ = self.decoder(decoder_input, hidden)
+            return self.output(decoded)
+            
+        else:
+            # Autoregressive decoding
+            logits_list = []
+            current_token = torch.full((batch_size, 1), self.bos_token, device=symbols.device, dtype=torch.long)
+            
+            for _ in range(self.max_len):
+                embedded = self.embedding(current_token)
+                repeated_context = context.unsqueeze(1)
+                decoder_input = torch.cat([embedded, repeated_context], dim=-1)
+                
+                decoded, hidden = self.decoder(decoder_input, hidden)
+                step_logits = self.output(decoded)
+                logits_list.append(step_logits)
+                
+                current_token = step_logits.argmax(dim=-1)
+                
+            return torch.cat(logits_list, dim=1)
 
 
 class TextSemanticAutoencoder(nn.Module):
@@ -84,7 +113,7 @@ class TextSemanticAutoencoder(nn.Module):
         self.channel = channel
         self.decoder = decoder
 
-    def forward(self, tokens: Tensor, snr_db: Tensor | float) -> Tensor:
+    def forward(self, tokens: Tensor, snr_db: Tensor | float, targets: Tensor | None = None) -> Tensor:
         symbols = self.encoder(tokens)
         received = self.channel(symbols, snr_db)
-        return self.decoder(received)
+        return self.decoder(received, targets)

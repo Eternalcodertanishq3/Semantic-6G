@@ -15,6 +15,8 @@ from torch.utils.data import DataLoader
 
 from models import CharVocabulary
 from train_text import build_loaders, build_model, seed_everything, select_device
+from channel.channel_models import snr_db_to_noise_variance
+import math
 
 
 def load_config(path: str | Path) -> dict:
@@ -73,6 +75,10 @@ def evaluate(args: argparse.Namespace) -> None:
         for snr in snrs:
             semantic_token_acc = []
             semantic_exact_acc = []
+
+            noise_var = snr_db_to_noise_variance(snr, float(config["channel"]["symbol_power"]))
+            noise_std = math.sqrt(noise_var / 2.0)
+            print(f"--- Evaluated SNR: {snr:5.1f} dB, applied noise std dev: {noise_std:.4f} ---")
 
             for batch_index, tokens in enumerate(loader):
                 if batch_index >= max_batches:

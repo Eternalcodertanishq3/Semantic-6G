@@ -130,7 +130,7 @@ def evaluate_loss(
                 break
             tokens = tokens.to(device)
             snr = random_snr(tokens.shape[0], config, device)
-            logits = model(tokens, snr)
+            logits = model(tokens, snr, targets=tokens)
             loss = F.cross_entropy(
                 logits.view(-1, CharVocabulary.vocab_size), tokens.view(-1), ignore_index=CharVocabulary.pad_id
             )
@@ -166,7 +166,7 @@ def train(args: argparse.Namespace) -> None:
                 break
             tokens = tokens.to(device)
             snr = random_snr(tokens.shape[0], config, device)
-            logits = model(tokens, snr)
+            logits = model(tokens, snr, targets=tokens)
 
             loss = F.cross_entropy(
                 logits.view(-1, CharVocabulary.vocab_size), tokens.view(-1), ignore_index=CharVocabulary.pad_id
