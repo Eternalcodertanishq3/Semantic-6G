@@ -153,3 +153,4 @@ checkpoints/
 logs/
 outputs/*
 !outputs/*.png
+!outputs/*.gif
