@@ -1,0 +1,50 @@
+=== QUALITATIVE TEXT CHECK ===
+
+Sample 1:
+Original: tty entrails till\nThou hast howl'd away twelve winters.\n\nARIEL
+SNR  -5.0dB: t with his stands and who\nsay is to stay with his stands is a
+SNR   0.0dB: ty thy love.\n\nMERCUTIO:\nHere lives and thoughts and thy hand
+SNR  10.0dB: tter thy love\nThat with thy world thou art with all thou\nwith 
+SNR  20.0dB: tter thy love\nThat with all thou art a worthy hands.\n\nQUEEN MAR
+--------------------------------------------------------------------------------
+
+Sample 2:
+Original: ycorax, who with age and envy\nWas grown into a hoop? hast thou
+SNR  -5.0dB: rcy and hast and house,\nHave a wounds and his and his and ha
+SNR   0.0dB: yce, and thou art and honour.\n\nKING RICHARD II:\nWho was thou 
+SNR  10.0dB: yce, and who was and with a\nconstant and who worthy with a wort
+SNR  20.0dB: yce, who worthy wast again.\n\nKING RICHARD II:\nWho was thou wast
+--------------------------------------------------------------------------------
+
+Sample 3:
+Original: ?\n\nKATHARINA:\nAy, for a turtle, as he takes a buzzard.\n\nPETRUC
+SNR  -5.0dB: .\n\nAUTOLYCUS:\nA worsh, as the abuty as the about a words as a
+SNR   0.0dB: , but a bast\nShall but a baster, as to be a but a but.\n\nAUFIDIU
+SNR  10.0dB: ,\nAs the assable a foul a true as the assable.\n\nAUFIDIUS:\nAy, a
+SNR  20.0dB: ,\nAs the art as to a true as the assurace.\n\nAUFIDIUS:\nAy, as th
+--------------------------------------------------------------------------------
+
+Sample 4:
+Original: , if it so hap. Cheerly, good hearts! Out\nof our way, I say.\n\n
+SNR  -5.0dB:  is hand, what so hard would have doth.\n\nDUKE OF YORK:\nI would
+SNR   0.0dB: f so, fair heaven so fool her say.\n\nLUCIO:\nO, her so foot have 
+SNR  10.0dB: , sir, or heaven of his say of heaven.\n\nROMEO:\nO, so our soul
+SNR  20.0dB: , sir, or thee of his say of hours.\n\nROMEO:\nO, so of a said. O
+--------------------------------------------------------------------------------
+
+Sample 5:
+Original: TRUCHIO:\nNay, hear you, Kate: in sooth you scape not so.\n\nKATH
+SNR  -5.0dB: TARD:\nI say you she do see you she do I see you.\n\nCORIOLANUS:\n
+SNR   0.0dB: TER:\nI say, so say you shall not say, so see the sound.\n\nCAMIL
+SNR  10.0dB: THUMBERLAND:\nNo, so say you shall not say, so you shall not.\n\n
+SNR  20.0dB: TER:\nNo, so say you shall not say, so see you.\n\nCLARENCE:\nI ha
+--------------------------------------------------------------------------------
+
+Sample 6:
+Original: rous smack\nThat at the parting all the church did echo:\nAnd I 
+SNR  -5.0dB: eral.\n\nANGELO:\nAll the such a call the children is the charged\n
+SNR   0.0dB: ray the change\nA can the crown and the child and the change\nAnd
+SNR  10.0dB: ruch a patience\nA child the call the change and did stay\nThe 
+SNR  20.0dB: rought a\ncould a change the change a dream and the chance\nAnd 
+--------------------------------------------------------------------------------
+

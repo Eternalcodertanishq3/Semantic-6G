@@ -13,7 +13,7 @@ from torch.utils.data import DataLoader, random_split
 from torchvision import datasets, transforms
 
 from channel import make_channel
-from models import SemanticDecoder, SemanticEncoder
+from models import SemanticDecoder, SemanticEncoder, SmallCifarClassifier
 
 
 class SemanticAutoencoder(nn.Module):
@@ -86,6 +86,26 @@ def build_model(config: dict, device: torch.device) -> SemanticAutoencoder:
     return SemanticAutoencoder(encoder, channel, decoder).to(device)
 
 
+def load_frozen_classifier(config: dict, device: torch.device) -> SmallCifarClassifier | None:
+    """Load the frozen meaning classifier for task-aware loss."""
+    classifier_cfg = config.get("classifier", {})
+    checkpoint_path = Path(classifier_cfg.get("checkpoint", "checkpoints/cifar_classifier.pt"))
+    if not checkpoint_path.exists():
+        # Try alternate path
+        checkpoint_path = Path("checkpoints/cifar10_classifier.pt")
+    if not checkpoint_path.exists():
+        print("WARNING: No classifier checkpoint found. Training without task-aware loss.")
+        return None
+    classifier = SmallCifarClassifier().to(device)
+    ckpt = torch.load(checkpoint_path, map_location=device)
+    classifier.load_state_dict(ckpt["model_state"])
+    classifier.eval()
+    for param in classifier.parameters():
+        param.requires_grad_(False)
+    print(f"Loaded frozen classifier for task-aware loss: {checkpoint_path}")
+    return classifier
+
+
 def random_snr(batch_size: int, config: dict, device: torch.device) -> torch.Tensor:
     channel_cfg = config["channel"]
     low = float(channel_cfg["train_snr_min_db"])
@@ -108,6 +128,15 @@ def evaluate_loss(model: SemanticAutoencoder, loader: DataLoader, config: dict, 
     return float(np.mean(losses)) if losses else float("nan")
 
 
+def compute_lambda_warmup(epoch: int, warmup_epochs: int, target_lambda: float) -> float:
+    """Linear warmup: lambda=0 for first warmup_epochs, then ramp linearly."""
+    if epoch <= warmup_epochs:
+        return 0.0
+    total_epochs_after_warmup = max(1, 1)  # Ramp over remaining epochs
+    # Simple: full lambda after warmup
+    return target_lambda
+
+
 def train(args: argparse.Namespace) -> None:
     config = load_config(args.config)
     if args.epochs is not None:
@@ -117,6 +146,17 @@ def train(args: argparse.Namespace) -> None:
     train_loader, val_loader = build_loaders(config, fake_data=args.fake_data)
     model = build_model(config, device)
     train_cfg = config["train"]
+    total_epochs = int(train_cfg["epochs"])
+
+    # Task-aware loss setup
+    task_loss_weight = args.task_loss_weight
+    warmup_epochs = args.warmup_epochs
+    classifier = None
+    if task_loss_weight > 0:
+        classifier = load_frozen_classifier(config, device)
+        if classifier is not None:
+            print(f"Task-aware loss: target lambda={task_loss_weight}, warmup={warmup_epochs} epochs")
+
     optimizer = torch.optim.AdamW(
         model.parameters(),
         lr=float(train_cfg["lr"]),
@@ -128,22 +168,45 @@ def train(args: argparse.Namespace) -> None:
     log_every = int(train_cfg.get("log_every", 25))
     global_step = 0
 
-    for epoch in range(1, int(train_cfg["epochs"]) + 1):
+    for epoch in range(1, total_epochs + 1):
         model.train()
-        for batch_index, (images, _) in enumerate(train_loader, start=1):
+
+        # Compute current lambda with warmup
+        if epoch <= warmup_epochs:
+            current_lambda = 0.0
+        else:
+            # Linear ramp from 0 to target over (total_epochs - warmup_epochs)
+            ramp_progress = (epoch - warmup_epochs) / max(1, total_epochs - warmup_epochs)
+            current_lambda = task_loss_weight * min(1.0, ramp_progress)
+
+        for batch_index, (images, labels) in enumerate(train_loader, start=1):
             if args.max_batches is not None and batch_index > args.max_batches:
                 break
             images = images.to(device)
+            labels = labels.to(device)
             snr = random_snr(images.shape[0], config, device)
             recon = model(images, snr)
-            loss = F.mse_loss(recon, images)
+
+            mse_loss = F.mse_loss(recon, images)
+            loss = mse_loss
+
+            # Add task-aware loss if classifier available and lambda > 0
+            if classifier is not None and current_lambda > 0:
+                classifier_logits = classifier(recon.clamp(0, 1))
+                ce_loss = F.cross_entropy(classifier_logits, labels)
+                loss = mse_loss + current_lambda * ce_loss
+            else:
+                ce_loss = None
+
             optimizer.zero_grad(set_to_none=True)
             loss.backward()
             optimizer.step()
             global_step += 1
 
             if global_step % log_every == 0 or batch_index == 1:
-                print(f"epoch={epoch} step={global_step} train_mse={loss.item():.6f}")
+                ce_str = f" ce={ce_loss.item():.4f}" if ce_loss is not None else ""
+                lam_str = f" lam={current_lambda:.5f}" if classifier is not None else ""
+                print(f"epoch={epoch} step={global_step} mse={mse_loss.item():.6f}{ce_str}{lam_str} total={loss.item():.6f}")
 
         val_mse = evaluate_loss(model, val_loader, config, device)
         print(f"epoch={epoch} val_mse={val_mse:.6f}")
@@ -166,9 +229,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--fake-data", action="store_true", help="Use torchvision FakeData for fast smoke tests.")
     parser.add_argument("--epochs", type=int, default=None)
     parser.add_argument("--max-batches", type=int, default=None)
+    parser.add_argument("--task-loss-weight", type=float, default=0.0,
+                        help="Weight lambda for classifier CE auxiliary loss. 0 = MSE only (default).")
+    parser.add_argument("--warmup-epochs", type=int, default=5,
+                        help="Number of epochs to hold lambda at 0 before ramping (default: 5).")
     return parser.parse_args()
 
 
 if __name__ == "__main__":
     train(parse_args())
-
