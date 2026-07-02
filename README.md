@@ -280,6 +280,8 @@ The semantic encoder outputs normalized IQ-style tensors with shape `[batch, sym
 - [x] **Phase 1.2**: Semantic Text Codec (Baseline)
 - [x] **Phase 1.3**: Autoregressive Sequence decoding for Text
 - [x] **Phase 1.4**: Task-Aware Auxiliary Loss (Fidelity Improvements)
-- [ ] **Phase 2**: Hardware SDR Integration (ADALM-PLUTO / GNU Radio)
-- [ ] **Phase 3**: Dynamic Attention Mechanisms (Vision Transformers) for targeted power allocation
-- [ ] **Phase 4**: Generative AI Decoding (Diffusion/GANs) for perceptual sharpness at ultra-low SNRs
+- [x] **Phase 2A**: Rayleigh & CDL Channel Robustness (Zero-Shot Evaluation)
+- [ ] **Phase 2B**: End-to-End DeepJSCC (No Equalizer) & Sionna CDL Integration
+- [ ] **Phase 3**: Hardware SDR Integration (ADALM-PLUTO / GNU Radio)
+- [ ] **Phase 4**: Dynamic Attention Mechanisms (Vision Transformers) for targeted power allocation
+- [ ] **Phase 5**: Generative AI Decoding (Diffusion/GANs) for perceptual sharpness at ultra-low SNRs
