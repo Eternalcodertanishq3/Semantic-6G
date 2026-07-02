@@ -115,9 +115,13 @@ To definitively prove that the accuracy gains were caused by the auxiliary loss 
 
 This strictly isolates the impact: the Task-Aware loss *alone* is responsible for doubling the accuracy (from ~31% to ~61%), while the extended training duration optimized the final ~11 points.
 
-| Semantic Phase 1.3 vs 1.4 (Meaning Accuracy) | Current Semantic vs Classical (Phase 1.4) |
-| :----------------------------------------------------: | :----------------------------------------------------: |
-| ![Meaning Accuracy Comparison](outputs/compare_image_meaning_acc.png) | ![Current Meaning Accuracy](outputs/meaning_accuracy_vs_snr.png) |
+| Ablation Study (Meaning Accuracy vs SNR) |
+| :---: |
+| ![Ablation](results_archive/phase1_4_baseline/compare_image_meaning_acc_ablation.png) |
+
+| Phase 1.3 vs 1.4 (Meaning Acc) | Phase 1.3 vs 1.4 (PSNR) | Current Semantic vs Classical (Phase 1.4) |
+| :---: | :---: | :---: |
+| ![Meaning Accuracy Comparison](outputs/compare_image_meaning_acc.png) | ![PSNR Comparison](outputs/compare_image_psnr.png) | ![Current Meaning Accuracy](outputs/meaning_accuracy_vs_snr.png) |
 
 ### Text Token Results
 
@@ -159,9 +163,9 @@ Real wireless channels aren't just Additive White Gaussian Noise (AWGN); they in
 - **Frequency-Selective Fading (CDL-approx)**: A 6-tap delay line approximating 3GPP CDL-B/CDL-C environments. *(Note: The CDL-approx is a practical approximation. Exact 3GPP CDL implementation is planned for Phase 2B via Sionna).*
 
 #### Zero-Shot Robustness: The Results
-| PSNR vs SNR | Meaning Accuracy vs SNR |
-| :---: | :---: |
-| ![Semantic PSNR across Channels](outputs/channel_robustness_zeroshot_psnr.png) | ![Semantic Meaning Accuracy across Channels](outputs/channel_robustness_zeroshot_meaning_acc.png) |
+| PSNR vs SNR | Meaning Accuracy vs SNR | Semantic vs Classical Breakdown |
+| :---: | :---: | :---: |
+| ![Semantic PSNR across Channels](outputs/channel_robustness_zeroshot_psnr.png) | ![Semantic Meaning Accuracy across Channels](outputs/channel_robustness_zeroshot_meaning_acc.png) | ![Semantic vs Classical](outputs/channel_robustness_zeroshot_sem_vs_cls.png) |
 
 **High-SNR Generalization**: At 20dB SNR, the model achieves **70.3% - 72.1%** Meaning Accuracy across all four channels, nearly identical to its 71.7% AWGN baseline. (The 72.1% on CDL is statistical variance on par with the AWGN run). With standard Frequency-Domain MMSE and Zero-Forcing equalizers placed before the neural decoder, a model trained exclusively on AWGN generalizes perfectly to complex fading channels at high signal strengths.
 
