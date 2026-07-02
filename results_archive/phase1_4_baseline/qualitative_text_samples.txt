@@ -1,0 +1,50 @@
+=== QUALITATIVE TEXT CHECK ===
+
+Sample 1:
+Original: tty entrails till\nThou hast howl'd away twelve winters.\n\nARIEL
+SNR  -5.0dB: t will have his nature\nHave with his noble worse with his most
+SNR   0.0dB: ty true holy lands\nThoughts with her world and hearts with h
+SNR  10.0dB: ty thy heart as he\nThough with his love and with his words.\nT
+SNR  20.0dB: ty thou hast heaven\nThou hast two with his life words\nThy wi
+--------------------------------------------------------------------------------
+
+Sample 2:
+Original: ycorax, who with age and envy\nWas grown into a hoop? hast thou
+SNR  -5.0dB: oter and who was any good,\nHe which I have ever would he woul
+SNR   0.0dB: ry! who not and wanton and who,\nWho with the wanton thou wilt
+SNR  10.0dB: yrace, who worthy and war.\nWho is an enemy who in an encounter
+SNR  20.0dB: your watch, who in an another\nWho worthy was an enemy though
+--------------------------------------------------------------------------------
+
+Sample 3:
+Original: ?\n\nKATHARINA:\nAy, for a turtle, as he takes a buzzard.\n\nPETRUC
+SNR  -5.0dB: \nA blood as the are a for a word, as turn to the word.\nNow,
+SNR   0.0dB: lt but\nfor a father as to a but a but to be, to be.\n\nKING HEN
+SNR  10.0dB: ?\n\nPARIS:\nAy, as to from the abuse are to the abuse.\n\nKING HEN
+SNR  20.0dB: ?\n\nPARIS:\nAy, as to from the abuse, as the ask.\n\nPETRUCHIO:\n
+--------------------------------------------------------------------------------
+
+Sample 4:
+Original: , if it so hap. Cheerly, good hearts! Out\nof our way, I say.\n\n
+SNR  -5.0dB: e, sir, he hath he hath out of her.\nI would have he would pa
+SNR   0.0dB: , if he is of heaven, good fair words.\n\nKING RICHARD III:\nNay
+SNR  10.0dB: , it she hath our poor heart, our part.\n\nKING RICHARD III:\nRom
+SNR  20.0dB: , sir, he is our particular our part.\n\nJULIET:\nI would go a s
+--------------------------------------------------------------------------------
+
+Sample 5:
+Original: TRUCHIO:\nNay, hear you, Kate: in sooth you scape not so.\n\nKATH
+SNR  -5.0dB: TIA:\nNever say I speak thee so do so. But since I see\nI come 
+SNR   0.0dB: Thir:\nNay, so say not so, patience stooper sound to speak,\nNo
+SNR  10.0dB: Thir?\n\nKING HENRY VI:\nNay, so look you speak not so. Let heave
+SNR  20.0dB: THOM:\nPray you, sir, so say not so. But say it speak.\n\nKING H
+--------------------------------------------------------------------------------
+
+Sample 6:
+Original: rous smack\nThat at the parting all the church did echo:\nAnd I 
+SNR  -5.0dB: That came.\nI came the cloud curse the curse clamber curse\nAnd 
+SNR   0.0dB: ry the state\nThat I can pluck the close the cause\nThe curt and 
+SNR  10.0dB: rought at the\nThat call the place the child command child\nThe 
+SNR  20.0dB: rought at the\nThat came the cause the common child capticult\nT
+--------------------------------------------------------------------------------
+

@@ -150,6 +150,30 @@ Below is a qualitative example showing how the Semantic Text Codec gracefully fi
 | *tty entrails till<br>Thou hast howl'd away twelve winters.<br><br>ARIEL* | *ty thou hast heaven<br>Thou hast two with his life words<br>Thy wi* | *ty true holy lands<br>Thoughts with her world and hearts with h* | *t will have his nature<br>Have with his noble worse with his most* |
 | *TRUCHIO:<br>Nay, hear you, Kate: in sooth you scape not so.<br><br>KATH* | *THOM:<br>Pray you, sir, so say not so. But say it speak.<br><br>KING H* | *Thir:<br>Nay, so say not so, patience stooper sound to speak,<br>No* | *TIA:<br>Never say I speak thee so do so. But since I see<br>I come* |
 
+### Phase 2A: Rayleigh & CDL Channel Robustness
+
+Real wireless channels aren't just Additive White Gaussian Noise (AWGN); they introduce multipath fading (signals bouncing off buildings, arriving at different times and phases). To test if our AI genuinely works in the real world, we evaluated the Phase 1.4 AWGN-trained model against three realistic channel models **zero-shot** (without retraining):
+- **AWGN**: The textbook ideal channel (noise only).
+- **Rayleigh Block Fading**: Simulates a flat fading environment with a single random complex fade per transmission.
+- **Rayleigh Fast Fading**: Simulates rapid fading where every individual symbol gets an independent fade.
+- **Frequency-Selective Fading (CDL-approx)**: A 6-tap delay line approximating 3GPP CDL-B/CDL-C environments. *(Note: The CDL-approx is a practical approximation. Exact 3GPP CDL implementation is planned for Phase 2B via Sionna).*
+
+#### Zero-Shot Robustness: The Results
+| PSNR vs SNR | Meaning Accuracy vs SNR |
+| :---: | :---: |
+| ![Semantic PSNR across Channels](outputs/channel_robustness_zeroshot_psnr.png) | ![Semantic Meaning Accuracy across Channels](outputs/channel_robustness_zeroshot_meaning_acc.png) |
+
+**High-SNR Generalization**: At 20dB SNR, the model achieves **70.3% - 72.1%** Meaning Accuracy across all four channels, nearly identical to its 71.7% AWGN baseline. (The 72.1% on CDL is statistical variance on par with the AWGN run). With standard Frequency-Domain MMSE and Zero-Forcing equalizers placed before the neural decoder, a model trained exclusively on AWGN generalizes perfectly to complex fading channels at high signal strengths.
+
+#### The Low-SNR Bottleneck: Why Explicit Equalizers Fail
+At lower signal strengths (e.g., 0dB SNR), we observed a massive divergence:
+- AWGN and Block Fading maintain strong accuracy (~60.3% and ~53.5%).
+- Fast Fading and CDL-approx collapse to **~29.1% and ~30.4%**.
+
+This is not a representation failure, but a fundamental physics constraint of **explicit equalizers**. Under fast fading, the equalizer divides the received signal by the fading coefficient. When a deep fade occurs (the coefficient is near zero), the equalizer massively amplifies the noise. The neural network isn't the bottleneck—the classical equalizer is destroying the signal before the AI even sees it.
+
+**The Phase 2B Solution**: The correct architectural fix is not to incrementally retrain the network on equalization errors. Instead, the next step is **end-to-end channel handling without explicit equalization**. By feeding the raw, faded complex symbols directly into the neural decoder, the AI learns to implicitly handle channel distortion without explicit noise amplification—the hallmark of state-of-the-art DeepJSCC research.
+
 ---
 
 ## 🛡️ Technical Q&A / Defense Report

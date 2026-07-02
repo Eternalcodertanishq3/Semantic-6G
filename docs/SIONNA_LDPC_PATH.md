@@ -1,4 +1,4 @@
-﻿# Sionna / LDPC Upgrade Path
+# Sionna / LDPC Upgrade Path
 
 The Windows path uses the local convolutional-code baseline so Phase 1.1 remains runnable without changing the installed PyTorch 2.6 environment.
 
@@ -24,3 +24,6 @@ Next LDPC integration step:
 4. Run the same SNR sweep for both `conv_viterbi` and `sionna_ldpc`, then compare both baselines in the write-up.
 
 This path is intentionally isolated. A failed Sionna import in Linux should never break the Windows convolutional-code baseline.
+
+### Phase 2B: CDL Channels via Sionna
+Phase 2B will replace the CDL approximation in `channel_models.py` with Sionna's exact 3GPP CDL-B/CDL-C implementation for publication-quality results.
