@@ -1,18 +1,30 @@
 
 <div align="center">
 
+# Semantic-6G: Deep Joint Source-Channel Coding
+
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
+[![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-EE4C2C.svg?logo=pytorch&logoColor=white)](https://pytorch.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+*An AI-driven wireless communication framework replacing classical Source (JPEG) and Channel (FEC/QAM) coding with a single Deep Neural Network, demonstrating graceful degradation against the "Cliff Effect" in extreme noise.*
+
+![Graceful Degradation vs Cliff Effect](outputs/cliff_effect_demo.gif)
+
+</div>
+
 ---
 
 ## 📑 Table of Contents
 
-- [The Core Problem: The &#34;Cliff Effect&#34;](#-the-core-problem-the-cliff-effect)
+- [The Core Problem: The "Cliff Effect"](#-the-core-problem-the-cliff-effect)
 - [System Architecture](#-system-architecture)
-- [Evaluation &amp; Mathematical Results](#-evaluation--mathematical-results)
-- [Theoretical Foundation &amp; FAQ](#-theoretical-foundation--faq)
-- [Setup &amp; Usage](#-setup--usage)
+- [Evaluation & Mathematical Results](#-evaluation--mathematical-results)
+- [Theoretical Foundation & FAQ](#-theoretical-foundation--faq)
+- [Setup & Usage](#-setup--usage)
 - [Phase 2 Readiness](#-phase-2-readiness-hardware-sdr)
 - [Project Roadmap](#-project-roadmap)
-- [References &amp; Prior Art](#-references--prior-art)
+- [References & Prior Art](#-references--prior-art)
 
 ---
 
