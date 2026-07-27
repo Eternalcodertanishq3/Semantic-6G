@@ -270,6 +270,18 @@ Our classical benchmark utilizes rate-1/2 convolutional coding with hard-decisio
 CIFAR-10 ($32 \times 32$ pixels) serves as a standardized, fast-iterating proof-of-concept for budget-constrained edge telemetry ($384$ complex symbols $\approx 48$ bytes). The architecture scales to higher-resolution image datasets (such as Kodak or ImageNet) by adjusting latent channel dimensionality and pooling strides while maintaining continuous IQ symbol normalization.
 </details>
 
+<details>
+<summary><b>Q7: Why does zero-shot generalization hold at high SNR across fading channels, but fail under low-SNR fast fading?</b></summary>
+<br>
+At high SNR (20 dB), frequency-domain equalizer linear inversion (MMSE/Zero-Forcing) accurately recovers symbol phases. However, under low-SNR fast fading, linear inversion divides by near-zero channel coefficients, massively amplifying noise before the signal reaches the neural decoder. This physics constraint motivates <b>Phase 2B (End-to-End DeepJSCC)</b>, where un-equalized raw faded channel symbols are fed directly into the neural receiver.
+</details>
+
+<details>
+<summary><b>Q8: Why does the Text Codec exhibit ~15.6% character accuracy and 0% exact sentence match?</b></summary>
+<br>
+Byte-level character transmission over analog channels subject to channel noise experiences frequent single-letter corruption. While the autoregressive GRU uses its learned language prior to reconstruct sub-word structures (achieving BLEU = 0.329), exact byte-level reproduction under single-shot transmission budgets requires subword BPE tokenization, attention mechanisms, or Generative LLM decoding at the receiver.
+</details>
+
 ---
 
 ## 🛠️ Setup & Usage
