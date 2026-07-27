@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import argparse
 import csv
@@ -25,12 +25,23 @@ def load_config(path: str | Path) -> dict:
 
 
 def build_eval_loader(config: dict, fake_data: bool = False) -> DataLoader:
-    transform = transforms.ToTensor()
     data_cfg = config["data"]
+    dataset_name = str(data_cfg.get("dataset", "cifar10")).lower()
+    target_size = (32, 32)
+
     if fake_data:
+        transform = transforms.ToTensor()
         dataset = datasets.FakeData(size=512, image_size=(3, 32, 32), num_classes=10, transform=transform)
+    elif dataset_name == "stl10":
+        transform = transforms.Compose([
+            transforms.Resize(target_size),
+            transforms.ToTensor(),
+        ])
+        dataset = datasets.STL10(root=data_cfg["root"], split="test", transform=transform, download=True)
     else:
+        transform = transforms.ToTensor()
         dataset = datasets.CIFAR10(root=data_cfg["root"], train=False, transform=transform, download=True)
+
     return DataLoader(
         dataset,
         batch_size=int(data_cfg["batch_size"]),

@@ -32,7 +32,12 @@ class CharVocabulary:
 
 
 class TextSemanticEncoder(nn.Module):
-    """GRU encoder that maps token sequences to normalized IQ symbols."""
+    """Bidirectional GRU text encoder mapping byte sequences to normalized IQ channel symbols.
+
+    Applies deep joint source-channel coding for text sequences (Farsad et al., ICASSP 2018;
+    Xie et al., IEEE TSP 2021), projecting character-level embeddings into continuous power-constrained
+    radio channel symbols.
+    """
 
     def __init__(self, vocab_size: int = 259, embed_dim: int = 128, hidden_dim: int = 192, num_symbols: int = 128, symbol_power: float = 1.0) -> None:
         super().__init__()
@@ -53,7 +58,11 @@ class TextSemanticEncoder(nn.Module):
 
 
 class TextSemanticDecoder(nn.Module):
-    """GRU decoder scaffold for reconstructing byte-level text tokens."""
+    """Autoregressive GRU text decoder for sequence reconstruction over noisy channels.
+
+    Utilizes autoregressive step-by-step decoding with teacher forcing during training to condition
+    next-character generation jointly on prior predictions and corrupted channel symbols.
+    """
 
     def __init__(self, vocab_size: int = 259, embed_dim: int = 128, hidden_dim: int = 192, num_symbols: int = 128, max_len: int = 96) -> None:
         super().__init__()

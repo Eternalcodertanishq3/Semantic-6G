@@ -49,10 +49,20 @@ def select_device(name: str) -> torch.device:
 
 def build_loaders(config: dict, fake_data: bool = False) -> tuple[DataLoader, DataLoader]:
     data_cfg = config["data"]
-    transform = transforms.ToTensor()
+    dataset_name = str(data_cfg.get("dataset", "cifar10")).lower()
+    target_size = (32, 32)
+
     if fake_data:
+        transform = transforms.ToTensor()
         dataset = datasets.FakeData(size=2048, image_size=(3, 32, 32), num_classes=10, transform=transform)
+    elif dataset_name == "stl10":
+        transform = transforms.Compose([
+            transforms.Resize(target_size),
+            transforms.ToTensor(),
+        ])
+        dataset = datasets.STL10(root=data_cfg["root"], split="train", transform=transform, download=True)
     else:
+        transform = transforms.ToTensor()
         dataset = datasets.CIFAR10(root=data_cfg["root"], train=True, transform=transform, download=True)
 
     val_size = int(data_cfg.get("val_size", 1000))

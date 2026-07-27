@@ -20,7 +20,11 @@ class ResBlock(nn.Module):
 
 
 class SemanticDecoder(nn.Module):
-    """CNN decoder that reconstructs a 32x32 RGB image from received IQ symbols."""
+    """CNN decoder reconstructor mapping corrupted complex IQ channel symbols to RGB images.
+
+    Implements a non-linear neural receiver (Bourtsoulatze et al., 2019) that jointly
+    performs channel equalisation, de-noising, and semantic source reconstruction.
+    """
 
     def __init__(self, num_symbols: int = 384, latent_channels: int = 96) -> None:
         super().__init__()

@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import math
 from dataclasses import dataclass
@@ -8,10 +8,7 @@ import torch
 import torch.nn.functional as F
 from torch import Tensor
 
-try:
-    from commpy.channelcoding import Trellis as CommPyTrellis
-except Exception:  # pragma: no cover - optional runtime dependency guard
-    CommPyTrellis = None
+# Optional commpy trellis reference is resolved lazily inside _build_commpy_trellis
 
 
 @dataclass(frozen=True)
@@ -169,9 +166,11 @@ class ClassicalImagePipeline:
         return trellis
 
     def _build_commpy_trellis(self):
-        if CommPyTrellis is None:
+        try:
+            from commpy.channelcoding import Trellis as CommPyTrellis
+            return CommPyTrellis(np.array([self.memory]), np.array([list(self.generators)]))
+        except BaseException:
             return None
-        return CommPyTrellis(np.array([self.memory]), np.array([list(self.generators)]))
 
     def _conv_encode_one(self, bits: np.ndarray) -> np.ndarray:
         state = 0

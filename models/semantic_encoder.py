@@ -21,7 +21,13 @@ class ResBlock(nn.Module):
 
 
 class SemanticEncoder(nn.Module):
-    """CNN image encoder that emits normalized IQ-style channel symbols."""
+    """CNN image encoder mapping raw images to power-normalized complex IQ channel symbols.
+
+    Architecture follows the Deep Joint Source-Channel Coding (DeepJSCC) paradigm
+    (Bourtsoulatze et al., IEEE TWC 2019), replacing separate compression (JPEG) and
+    error correction (FEC) with a single continuous neural mapping. Transmitted symbols
+    are strictly power-normalized such that E[||x||^2] <= symbol_power.
+    """
 
     def __init__(self, num_symbols: int = 384, latent_channels: int = 96, symbol_power: float = 1.0) -> None:
         super().__init__()

@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import argparse
 import random
@@ -102,9 +102,11 @@ def train(args: argparse.Namespace) -> None:
             loss.backward()
             optimizer.step()
             running.append(loss.item())
+            if batch_index == 1 or batch_index % 50 == 0:
+                print(f"epoch={epoch} batch={batch_index}/{len(train_loader)} loss={loss.item():.4f}")
         scheduler.step()
         accuracy = evaluate_classifier(model, val_loader, device)
-        print(f"epoch={epoch} train_ce={np.mean(running):.4f} val_acc={accuracy:.4f}")
+        print(f"epoch={epoch}/{classifier_cfg.get('epochs', 40)} train_ce={np.mean(running):.4f} val_acc={accuracy:.4f}")
         torch.save({"model_state": model.state_dict(), "config": config, "epoch": epoch, "val_acc": accuracy}, checkpoint_path)
         print(f"saved classifier checkpoint: {checkpoint_path}")
 

@@ -56,9 +56,14 @@ def main() -> None:
         st.warning("No trained checkpoint found yet. Train with `python train.py --config config.yaml` for a meaningful semantic reconstruction.")
 
     col1, col2, col3 = st.columns(3)
-    col1.image(to_display(image), caption="Original", use_container_width=True)
-    col2.image(to_display(classical_recon), caption="Classical", use_container_width=True)
-    col3.image(to_display(semantic), caption="Semantic", use_container_width=True)
+    try:
+        col1.image(to_display(image), caption="Original", use_container_width=True)
+        col2.image(to_display(classical_recon), caption="Classical", use_container_width=True)
+        col3.image(to_display(semantic), caption="Semantic", use_container_width=True)
+    except TypeError:
+        col1.image(to_display(image), caption="Original")
+        col2.image(to_display(classical_recon), caption="Classical")
+        col3.image(to_display(semantic), caption="Semantic")
 
 
 def to_display(tensor: torch.Tensor):
