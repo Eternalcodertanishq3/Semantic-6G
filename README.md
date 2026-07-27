@@ -198,12 +198,36 @@ This is not a representation failure, but a fundamental physics constraint of **
 
 **The Phase 2B Solution**: The correct architectural fix is not to incrementally retrain the network on equalization errors. Instead, the next step is **end-to-end channel handling without explicit equalization**. By feeding the raw, faded complex symbols directly into the neural decoder, the AI learns to implicitly handle channel distortion without explicit noise amplification—the hallmark of state-of-the-art DeepJSCC research.
 
-#### Phase 1.5 Update: A+ Rank Benchmark & High-Precision Evaluator
+#### Phase 1.5 Update: A+ Rank Benchmark, High-Precision Evaluator & PDF Report
 
-In Phase 1.5, we elevated the repository's research rigor, environment stability, and evaluation precision:
+In Phase 1.5, we elevated the repository's research rigor, environment stability, and evaluation precision to an A+ benchmark standard:
+
 - **90.86% Yardstick Classifier**: Retrained the evaluation classifier for 40 epochs (`checkpoints/cifar10_classifier.pt`), upgrading evaluator accuracy ceiling to **90.86%** on CIFAR-10 test data for hyper-accurate Meaning Accuracy evaluation.
-- **Text Codec Fidelity**: Achieved a peak **0.329 BLEU score** and reduced Levenshtein edit distance (**0.681**) at high SNR.
-- **Academic & Environment Stabilization**: Refactored theoretical documentation to include standard IEEE literature citations (Bourtsoulatze et al., 2019; Kurka & Gündüz, 2020; Farsad et al., 2018; Xie et al., 2021), pinned `numpy<2.0` in virtual environments, and clean-archived all 12 evaluation artifacts under `results_archive/phase1_5_aplus/`.
+- **Image Pipeline Performance**: Semantic AI achieves **21.3% Meaning Accuracy** and **19.08 dB PSNR** at -5 dB SNR (vs. 10.1% / 9.94 dB classical), and **32.2% Meaning Accuracy** / **23.80 dB PSNR** at 20 dB SNR.
+- **Text Codec Fidelity**: Achieved a peak **0.329 BLEU score** (+56% gain over baseline) and reduced Levenshtein edit distance (**0.681**) at high SNR.
+- **Academic & Environment Stabilization**: Refactored theoretical documentation to include standard IEEE literature citations (Bourtsoulatze et al., 2019; Kurka & Gündüz, 2020; Farsad et al., 2018; Xie et al., 2021), pinned `numpy<2.0` in virtual environments, and clean-archived all evaluation artifacts under `results_archive/phase1_5_aplus/`.
+
+##### Phase 1.5 Image & Text Benchmark Plots
+
+| Phase 1.5 Meaning Accuracy vs SNR | Phase 1.5 PSNR vs SNR | Phase 1.5 SSIM vs SNR |
+| :---: | :---: | :---: |
+| ![Meaning Accuracy](results_archive/phase1_5_aplus/meaning_accuracy_vs_snr.png) | ![PSNR](results_archive/phase1_5_aplus/psnr_vs_snr.png) | ![SSIM](results_archive/phase1_5_aplus/ssim_vs_snr.png) |
+
+| Phase 1.5 Text BLEU Score vs SNR | Phase 1.5 Text Edit Distance vs SNR | Phase 1.5 Text Token Accuracy vs SNR |
+| :---: | :---: | :---: |
+| ![BLEU Score](results_archive/phase1_5_aplus/text_bleu_vs_snr.png) | ![Edit Distance](results_archive/phase1_5_aplus/text_edit_distance_vs_snr.png) | ![Token Accuracy](results_archive/phase1_5_aplus/text_token_acc_vs_snr.png) |
+
+##### Phase 1.5 Zero-Shot Fading Channel Robustness Plots
+
+| Phase 1.5 Fading Meaning Acc | Phase 1.5 Fading PSNR | Phase 1.5 Semantic vs Classical Breakdown |
+| :---: | :---: | :---: |
+| ![Fading Meaning Acc](results_archive/phase1_5_aplus/channel_robustness_zeroshot_meaning_acc.png) | ![Fading PSNR](results_archive/phase1_5_aplus/channel_robustness_zeroshot_psnr.png) | ![Semantic vs Classical Breakdown](results_archive/phase1_5_aplus/channel_robustness_zeroshot_sem_vs_cls.png) |
+
+##### Phase 1.5 Archived Reports & Datasets
+- 📄 **[Download Phase 1.5 Final PDF Report](results_archive/phase1_5_aplus/Semantic_6G_Phase1_5_Results_Final.pdf)**
+- 📊 **[Image Sweep CSV Data](results_archive/phase1_5_aplus/snr_sweep_metrics.csv)**
+- 📊 **[Text Sweep CSV Data](results_archive/phase1_5_aplus/text_snr_sweep_metrics.csv)**
+- 📊 **[Channel Robustness CSV Data](results_archive/phase1_5_aplus/channel_robustness_zeroshot.csv)**
 
 ---
 
