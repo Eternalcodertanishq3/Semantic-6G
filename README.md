@@ -207,21 +207,19 @@ In Phase 1.5, we elevated the repository's research rigor, environment stability
 - **Text Codec Fidelity**: Achieved a peak **0.329 BLEU score** (+56% gain over baseline) and reduced Levenshtein edit distance (**0.681**) at high SNR.
 - **Academic & Environment Stabilization**: Refactored theoretical documentation to include standard IEEE literature citations (Bourtsoulatze et al., 2019; Kurka & Gündüz, 2020; Farsad et al., 2018; Xie et al., 2021), pinned `numpy<2.0` in virtual environments, and clean-archived all evaluation artifacts under `results_archive/phase1_5_aplus/`.
 
-##### Phase 1.5 Image & Text Benchmark Plots
+##### Phase 1.5 Benchmark Plots (Ordered 1 to 9)
 
-| Phase 1.5 Meaning Accuracy vs SNR | Phase 1.5 PSNR vs SNR | Phase 1.5 SSIM vs SNR |
+| #1: Semantic vs Classical Breakdown | #2: Meaning Accuracy vs SNR | #3: PSNR vs SNR (Cliff Effect) |
 | :---: | :---: | :---: |
-| ![Meaning Accuracy](results_archive/phase1_5_aplus/meaning_accuracy_vs_snr.png) | ![PSNR](results_archive/phase1_5_aplus/psnr_vs_snr.png) | ![SSIM](results_archive/phase1_5_aplus/ssim_vs_snr.png) |
+| ![Semantic vs Classical](results_archive/phase1_5_aplus/channel_robustness_zeroshot_sem_vs_cls.png) | ![Meaning Accuracy](results_archive/phase1_5_aplus/meaning_accuracy_vs_snr.png) | ![PSNR](results_archive/phase1_5_aplus/psnr_vs_snr.png) |
 
-| Phase 1.5 Text BLEU Score vs SNR | Phase 1.5 Text Edit Distance vs SNR | Phase 1.5 Text Token Accuracy vs SNR |
+| #4: SSIM vs SNR (Perceptual Quality) | #5: Fading Meaning Accuracy | #6: Fading PSNR Curves |
 | :---: | :---: | :---: |
-| ![BLEU Score](results_archive/phase1_5_aplus/text_bleu_vs_snr.png) | ![Edit Distance](results_archive/phase1_5_aplus/text_edit_distance_vs_snr.png) | ![Token Accuracy](results_archive/phase1_5_aplus/text_token_acc_vs_snr.png) |
+| ![SSIM](results_archive/phase1_5_aplus/ssim_vs_snr.png) | ![Fading Meaning Acc](results_archive/phase1_5_aplus/channel_robustness_zeroshot_meaning_acc.png) | ![Fading PSNR](results_archive/phase1_5_aplus/channel_robustness_zeroshot_psnr.png) |
 
-##### Phase 1.5 Zero-Shot Fading Channel Robustness Plots
-
-| Phase 1.5 Fading Meaning Acc | Phase 1.5 Fading PSNR | Phase 1.5 Semantic vs Classical Breakdown |
+| #7: Text BLEU Score vs SNR | #8: Text Token Accuracy vs SNR | #9: Text Edit Distance vs SNR |
 | :---: | :---: | :---: |
-| ![Fading Meaning Acc](results_archive/phase1_5_aplus/channel_robustness_zeroshot_meaning_acc.png) | ![Fading PSNR](results_archive/phase1_5_aplus/channel_robustness_zeroshot_psnr.png) | ![Semantic vs Classical Breakdown](results_archive/phase1_5_aplus/channel_robustness_zeroshot_sem_vs_cls.png) |
+| ![BLEU Score](results_archive/phase1_5_aplus/text_bleu_vs_snr.png) | ![Token Accuracy](results_archive/phase1_5_aplus/text_token_acc_vs_snr.png) | ![Edit Distance](results_archive/phase1_5_aplus/text_edit_distance_vs_snr.png) |
 
 ##### Phase 1.5 Archived Reports & Datasets
 - 📄 **[Download Phase 1.5 Final PDF Report](results_archive/phase1_5_aplus/Semantic_6G_Phase1_5_Results_Final.pdf)**
